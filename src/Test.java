@@ -17,7 +17,10 @@ public class Test {
         // 使用 ClassReader 去读取 Account 类的字节码信息。
         ClassReader cr = new ClassReader("Account");
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        ClassAdapter classAdapter = new AddSecurityCheckClassAdapter(cw);
+        //删除和修改方法
+        //ClassAdapter classAdapter = new AddSecurityCheckClassAdapter(cw);
+        //增加成员属性
+        ClassAdapter classAdapter = new AddFieldAdapter(cw);
         // 通过accept方法扫描整个字节码,SKIP_DEBUG选项的意义是在扫描过程中掠过所有有关行号方面的内容
         cr.accept(classAdapter, ClassReader.SKIP_DEBUG);
         byte[] data = cw.toByteArray();
@@ -26,7 +29,8 @@ public class Test {
         fout.write(data);
         fout.close();
         Account account = new Account();
-        account.operation();
+        //因为方法已删除，解除注释后报空
+        //account.operation();
         account.anotherOperation();
     }
 }
